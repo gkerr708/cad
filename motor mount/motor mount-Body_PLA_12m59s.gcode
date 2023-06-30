@@ -26,7 +26,7 @@
 ; close_fan_the_first_x_layers = 1
 ; cool_plate_temp = 35
 ; cool_plate_temp_initial_layer = 35
-; curr_bed_type = Cool Plate
+; curr_bed_type = Textured PEI Plate
 ; default_acceleration = 10000
 ; default_filament_colour = ""
 ; default_filament_profile = "Bambu PLA Basic @BBL X1"
@@ -310,13 +310,15 @@ G29.1 Z0 ; clear z-trim value first
 
 ;===== heatbed preheat ====================
 M1002 gcode_claim_action : 2
-M140 S35 ;set bed temp
-M190 S35 ;wait for bed temp
+M140 S65 ;set bed temp
+M190 S65 ;wait for bed temp
 
 
 
 ;=============turn on fans to prevent PLA jamming=================
 
+    
+    M106 P3 S180
     ;Prevent PLA from jamming
 
 M106 P2 S100 ; turn on big fan ,to cool down toolhead
@@ -501,6 +503,8 @@ M975 S1 ; turn on vibration supression
 
 ;=============turn on fans to prevent PLA jamming=================
 
+    
+    M106 P3 S180
     ;Prevent PLA from jamming
 
 M106 P2 S100 ; turn on big fan ,to cool down toolhead
@@ -545,7 +549,9 @@ G0 X18 E15 F6033.27
 M400
 
 ;===== for Textured PEI Plate , lower the nozzle as the nozzle was touching topmost of the texture when homing ==
-;curr_bed_type=Cool Plate
+;curr_bed_type=Textured PEI Plate
+
+G29.1 Z-0.04 ; for Textured PEI Plate
 
 ;========turn off light and wait extrude temperature =============
 M1002 gcode_claim_action : 0
@@ -558,6 +564,7 @@ G90
 G21
 M83 ; only support relative e
 ; filament start gcode
+M106 P3 S255
 M981 S1 P20000 ;open spaghetti detector
 M106 S0
 M106 P2 S0
